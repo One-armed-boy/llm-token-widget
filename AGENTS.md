@@ -45,9 +45,10 @@ As implementation lands, `make verify` must remain the single local verification
 
 Planned command contract:
 
-- `make verify`: docs checks, unit tests, snapshot audit, mock E2E
-- `make test`: Swift package and app tests
-- `make e2e-mock`: build/run mock account flow and generate widget snapshot
+- `make verify`: docs checks, unit tests, provider fixture tests, mock E2E, snapshot audit
+- `make test`: local Node tests now; Swift package and app tests after macOS project scaffolding
+- `make test-providers`: provider parser and provider error mapping tests
+- `make e2e-mock`: build/run mock account and collector flows, then generate reports
 - `make snapshot-audit`: verify App Group snapshot contains only allowed fields
 - `make ui-screenshots`: capture deterministic app/widget-host screenshots
 
@@ -56,6 +57,7 @@ Planned command contract:
 - A change is not complete if the relevant harness command cannot be named.
 - UI elements that appear in tests need stable accessibility identifiers.
 - Provider adapters must have fixture-based parser tests before real API E2E.
+- Collector changes must have mock HTTP tests and must not write secrets or raw provider responses to reports.
 - Real provider tests are opt-in only and must require explicit environment variables.
 - Any debug export or artifact must be redactable and safe to inspect.
 
@@ -83,6 +85,6 @@ Widget snapshot forbidden fields:
 
 - Use a `CredentialStore` abstraction. Keychain is the default implementation, not a global dependency.
 - Use a provider-neutral `UsageSnapshot` for display and WidgetKit sharing.
+- Keep provider request planning separate from parsing and snapshot writing.
 - Keep recommendation logic deterministic and explainable. If data is stale or insufficient, show `unknown` rather than guessing.
 - Default UI copy should say "latest snapshot" or "last updated", not "real-time".
-

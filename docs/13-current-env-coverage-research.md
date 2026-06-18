@@ -23,11 +23,17 @@
 4. CLI E2E
    - `make verify`는 API key 없이 mock snapshot 생성과 redaction audit까지 실행합니다.
    - 산출물은 `reports/mock-e2e/`에 남기되 git에는 포함하지 않습니다.
+   - `collector-summary.json`은 collector 결과, redacted request plan, account state 요약만 포함합니다.
 
 5. Provider adapter tests
    - 실제 OpenAI/Anthropic API 호출 전, sanitized fixture 기반 parser와 error mapping을 구현합니다.
    - 401, 403, 404, 429, 5xx, pagination, empty usage, partial data를 fixture로 분리합니다.
    - `make test-providers`로 provider fixture parser만 빠르게 실행합니다.
+
+6. Collector tests
+   - request plan 생성, mock HTTP client, provider parser 연결, widget snapshot 변환을 검증합니다.
+   - secret은 request 실행 객체에만 존재하고 reports/test artifacts에는 redacted 형태로만 남깁니다.
+   - provider별 collector 변경은 mock HTTP test와 provider-to-widget integration test를 함께 요구합니다.
 
 ## macOS 환경으로 넘길 영역
 
@@ -53,6 +59,8 @@
 - domain edge-case tests 보강
 - snapshot audit 실패 케이스 보강
 - canonical fixture contract test 추가
+- provider request plan과 mock collector test 추가
+- mock E2E collector summary artifact 추가
 
 ## 참고 자료
 

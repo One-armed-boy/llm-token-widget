@@ -105,7 +105,32 @@ make snapshot-audit
 - forbidden pattern scan 통과
 - privacy mode fixture에서 금액/계정명이 숨겨짐
 
-### 4. Mock E2E
+### 4. Collector Tests
+
+대상:
+
+- provider request plan 생성
+- mock HTTP client
+- collector success/error flow
+- provider parser 연결
+- request plan redaction
+
+원칙:
+
+- 실제 API key 없이 실행
+- request header의 secret은 실행 중 request object에만 존재
+- report artifact에는 redacted headers만 기록
+- HTTP 오류는 provider error와 account state로 정규화
+
+예상 명령:
+
+```bash
+make verify
+```
+
+현재 구현에서는 collector unit test와 collector E2E가 `npm test`에 포함되어 실행됩니다.
+
+### 5. Mock E2E
 
 대상:
 
@@ -135,10 +160,11 @@ make e2e-mock
 ```text
 reports/mock-e2e/widget-snapshot.json
 reports/mock-e2e/summary.json
+reports/mock-e2e/collector-summary.json
 reports/mock-e2e/redaction-audit.json
 ```
 
-### 5. UI and Screenshot Tests
+### 6. UI and Screenshot Tests
 
 대상:
 
@@ -169,7 +195,7 @@ reports/ui-screenshots/widget-preview-small.png
 reports/ui-screenshots/widget-preview-medium.png
 ```
 
-### 6. Real Provider E2E
+### 7. Real Provider E2E
 
 대상:
 
@@ -204,10 +230,11 @@ make verify
 1. docs/schema sanity
 2. core unit tests
 3. provider fixture tests
-4. snapshot audit
+4. collector tests
 5. mock E2E
+6. snapshot audit
 
-초기 문서 단계에서는 `make verify`가 문서 링크와 기준 파일 존재만 확인합니다. 구현이 추가될수록 같은 명령에 테스트를 붙입니다.
+현재 구현에서는 `make verify`가 docs check, Node test suite, provider fixture tests, mock E2E, snapshot audit을 실행합니다. macOS 프로젝트가 추가되면 같은 명령에 Swift/Xcode에서 실행 가능한 빠른 검증을 연결합니다.
 
 ## AGENTS.md 계약
 
@@ -244,6 +271,7 @@ fixtures/
 - fixture는 실제 key, email, org id를 포함하지 않음
 - raw provider fixture는 parser에 필요한 필드만 포함
 - scenario fixture는 UX 상태를 재현하는 데 집중
+- collector report는 raw response를 저장하지 않고 redacted request plan과 결과 요약만 저장
 
 ## Accessibility Identifier 규칙
 
@@ -286,6 +314,7 @@ LLM 주도 개발을 허용하기 위한 최소 조건:
 ## 하네스 확장 원칙
 
 - 새 provider를 추가하면 fixture parser test를 먼저 추가한다.
+- 새 provider collector를 추가하면 mock HTTP collector test와 provider-to-widget integration test를 함께 추가한다.
 - 새 UI flow를 추가하면 accessibility identifier와 screenshot fixture를 함께 추가한다.
 - 새 snapshot field를 추가하면 snapshot audit allowlist를 함께 수정한다.
 - 새 secret handling을 추가하면 redaction test를 함께 추가한다.
