@@ -10,6 +10,7 @@
 - 계정 등록 UX 플로우 정의
 - 유사 사례 리서치 반영
 - 경쟁 앱 심층 분석 반영
+- LLM 주도 개발을 위한 테스트 하네스 전략 정의
 
 완료 기준: 구현자가 계정 등록, 수집, 캐시, 위젯 표시 경계를 설명할 수 있다.
 
@@ -25,6 +26,7 @@
 - 보안 체크리스트 기반 secret/log/snapshot 검증
 - privacy mode와 threshold notification 초안
 - source confidence와 best account recommendation mock
+- `make verify`, snapshot audit, mock E2E 초안
 
 완료 기준: API 연결 없이도 N개 mock 계정의 상태, 추천 계정, 위험 계정이 위젯에 표시된다.
 

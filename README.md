@@ -17,6 +17,17 @@ Claude, Claude Code, Codex/OpenAI 사용량을 여러 계정 기준으로 한눈
 - [유사 사례 리서치](docs/09-reference-product-research.md)
 - [경쟁 앱 심층 분석](docs/10-competitive-deep-dive.md)
 - [경량 플랜 재조정과 적대적 검증](docs/11-lightweight-plan-review.md)
+- [테스트 하네스 전략](docs/12-test-harness-strategy.md)
+
+## 개발 하네스
+
+현재 단계의 표준 검증 명령:
+
+```bash
+make verify
+```
+
+구현이 추가되면 같은 명령에 Swift unit test, provider fixture test, snapshot audit, mock E2E를 붙입니다.
 
 ## 핵심 방향
 
