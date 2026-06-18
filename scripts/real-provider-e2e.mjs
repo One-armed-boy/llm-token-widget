@@ -8,14 +8,57 @@ export async function runRealProviderE2E({ provider, env = process.env, output =
   const config = configFromEnv(provider, env);
   const client = createRealHttpClient({ timeoutMs: Number.parseInt(env.REAL_E2E_TIMEOUT_MS ?? "15000", 10) });
   const result = await collectAccountUsage(config, client);
+  const reportPath = writeCompatibilityReport(provider, result, config.now);
 
   output.log(`${provider} real E2E ${result.ok ? "passed" : "failed"} for ${config.accountId}`);
+  output.log(`${provider} compatibility report wrote ${reportPath}`);
   if (!result.ok) {
     output.error(`${provider} error: ${result.error.code}`);
     process.exitCode = 1;
   }
 
   return result;
+}
+
+export function buildCompatibilityReport(provider, result, generatedAt) {
+  return {
+    provider,
+    generatedAt,
+    ok: result.ok,
+    account: {
+      id: result.account.id,
+      provider: result.account.provider,
+      displayName: result.account.displayName,
+      capability: result.account.capability,
+      credentialStatus: result.account.credentialStatus,
+      hasSnapshot: Boolean(result.account.snapshot)
+    },
+    metrics: result.account.snapshot?.metrics
+      ? {
+          costUsd: result.account.snapshot.metrics.costUsd,
+          budgetUsd: result.account.snapshot.metrics.budgetUsd,
+          inputTokens: result.account.snapshot.metrics.inputTokens,
+          outputTokens: result.account.snapshot.metrics.outputTokens,
+          totalTokens: result.account.snapshot.metrics.totalTokens
+        }
+      : null,
+    period: result.account.snapshot
+      ? {
+          lastUpdatedAt: result.account.snapshot.lastUpdatedAt,
+          periodStart: result.account.snapshot.periodStart,
+          periodEnd: result.account.snapshot.periodEnd
+        }
+      : null,
+    error: result.error
+      ? {
+          code: result.error.code,
+          status: result.error.status,
+          retryable: result.error.retryable,
+          message: result.error.message
+        }
+      : null,
+    requestPlan: result.requestPlan
+  };
 }
 
 export function runRealProviderDryRun({ provider, env = process.env, output = console }) {
@@ -146,4 +189,10 @@ function optionalNumber(value) {
 function writeJson(path, value) {
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function writeCompatibilityReport(provider, result, generatedAt) {
+  const outputPath = join("reports", "real-e2e", `${provider}-summary.json`);
+  writeJson(outputPath, buildCompatibilityReport(provider, result, generatedAt));
+  return outputPath;
 }

@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { configFromEnv, dryRunConfigFromEnv, runRealProviderDryRun } from "../scripts/real-provider-e2e.mjs";
+import { buildCompatibilityReport, configFromEnv, dryRunConfigFromEnv, runRealProviderDryRun } from "../scripts/real-provider-e2e.mjs";
 
 describe("real provider E2E command config", () => {
   it("builds OpenAI config from explicit opt-in environment", () => {
@@ -78,5 +78,52 @@ describe("real provider E2E command config", () => {
     assert.equal(text.includes("dry-run-openai-secret"), false);
     assert.match(artifact.requestPlan.requests[0].url, /organization\/usage\/completions/);
     assert.equal(artifact.requestPlan.requests[0].redactedHeaders.Authorization, "[redacted]");
+  });
+
+  it("builds compatibility reports without raw provider payloads or secrets", () => {
+    const report = buildCompatibilityReport("openai", {
+      ok: true,
+      provider: "openai",
+      account: {
+        id: "openai-real",
+        provider: "openai",
+        displayName: "OpenAI Real",
+        capability: "supported",
+        credentialStatus: "valid",
+        snapshot: {
+          lastUpdatedAt: "2026-06-18T12:00:00.000Z",
+          periodStart: "2026-06-01T00:00:00.000Z",
+          periodEnd: "2026-06-30T00:00:00.000Z",
+          metrics: {
+            costUsd: 1.25,
+            budgetUsd: 100,
+            inputTokens: 100,
+            outputTokens: 50,
+            totalTokens: 150
+          }
+        }
+      },
+      error: null,
+      requestPlan: {
+        provider: "openai",
+        accountId: "openai-real",
+        requests: [
+          {
+            name: "usage",
+            method: "GET",
+            url: "https://api.openai.com/v1/organization/usage/completions",
+            redactedHeaders: { Authorization: "[redacted]" }
+          }
+        ]
+      }
+    }, "2026-06-18T12:00:00.000Z");
+    const reportText = JSON.stringify(report);
+
+    assert.equal(report.ok, true);
+    assert.equal(report.metrics.totalTokens, 150);
+    assert.equal(report.account.hasSnapshot, true);
+    assert.equal(reportText.includes("openai-real-secret"), false);
+    assert.equal(reportText.includes("rawResponse"), false);
+    assert.equal(reportText.includes("owner@example.com"), false);
   });
 });
