@@ -58,7 +58,7 @@ function parseProviderResponses(config, responses) {
 }
 
 function normalizeHttpResponse(response) {
-  if (response.status >= 400) {
+  if (response.status === null || response.status >= 400) {
     return {
       error: {
         status: response.status,
