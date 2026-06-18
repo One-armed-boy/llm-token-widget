@@ -56,6 +56,20 @@ describe("snapshot audit", () => {
     assert.match(audit.failures.map((failure) => failure.path).join("\n"), /rawResponse/);
   });
 
+  it("fails invalid account and metrics shapes", () => {
+    const audit = auditSnapshot({
+      ...validSnapshot,
+      accounts: [{ ...validSnapshot.accounts[0], metrics: null }]
+    });
+
+    assert.equal(audit.ok, false);
+    assert.match(audit.failures.map((failure) => failure.path).join("\n"), /metrics/);
+
+    const missingAccounts = auditSnapshot({ ...validSnapshot, accounts: null });
+    assert.equal(missingAccounts.ok, false);
+    assert.match(missingAccounts.failures.map((failure) => failure.path).join("\n"), /\$\.accounts/);
+  });
+
   it("fails secret-looking values", () => {
     const audit = auditSnapshot({
       ...validSnapshot,
@@ -74,5 +88,21 @@ describe("snapshot audit", () => {
 
     assert.equal(audit.ok, false);
     assert.match(audit.failures.map((failure) => failure.reason).join("\n"), /email/);
+  });
+
+  it("fails local paths and bearer tokens anywhere in the tree", () => {
+    const audit = auditSnapshot({
+      ...validSnapshot,
+      recommendation: {
+        ...validSnapshot.recommendation,
+        riskyAccountIds: ["/home/opc/private-project"]
+      },
+      accounts: [{ ...validSnapshot.accounts[0], displayName: `Bearer ${"abcdefghijklmnopqrstuvwxyz123456"}` }]
+    });
+
+    assert.equal(audit.ok, false);
+    const reasons = audit.failures.map((failure) => failure.reason).join("\n");
+    assert.match(reasons, /linux_home_path/);
+    assert.match(reasons, /bearer_token/);
   });
 });

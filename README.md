@@ -18,6 +18,7 @@ Claude, Claude Code, Codex/OpenAI 사용량을 여러 계정 기준으로 한눈
 - [경쟁 앱 심층 분석](docs/10-competitive-deep-dive.md)
 - [경량 플랜 재조정과 적대적 검증](docs/11-lightweight-plan-review.md)
 - [테스트 하네스 전략](docs/12-test-harness-strategy.md)
+- [현재 환경 커버리지 리서치](docs/13-current-env-coverage-research.md)
 
 ## 개발 하네스
 
@@ -27,7 +28,13 @@ Claude, Claude Code, Codex/OpenAI 사용량을 여러 계정 기준으로 한눈
 make verify
 ```
 
-구현이 추가되면 같은 명령에 Swift unit test, provider fixture test, snapshot audit, mock E2E를 붙입니다.
+현재 환경에서 커버리지 리포트를 확인할 때:
+
+```bash
+make test-coverage
+```
+
+macOS/Xcode 환경이 연결되면 같은 검증 계약에 Swift unit test, WidgetKit build, XCUITest, screenshot smoke를 붙입니다.
 
 ## 핵심 방향
 
