@@ -12,6 +12,8 @@
     "e2e:mock": "node scripts/e2e-mock.mjs",
     "e2e:openai": "node scripts/e2e-openai.mjs",
     "e2e:anthropic": "node scripts/e2e-anthropic.mjs",
+    "e2e:openai:dry-run": "node scripts/e2e-openai-dry-run.mjs",
+    "e2e:anthropic:dry-run": "node scripts/e2e-anthropic-dry-run.mjs",
     "snapshot:audit": "node scripts/snapshot-audit.mjs"
   },
   "engines": {

@@ -1,5 +1,8 @@
 import { collectAccountUsage } from "../src/collectors/usage-collector.mjs";
 import { createRealHttpClient } from "../src/collectors/real-http-client.mjs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { buildProviderRequestPlan, redactRequestPlan } from "../src/collectors/provider-request-plan.mjs";
 
 export async function runRealProviderE2E({ provider, env = process.env, output = console }) {
   const config = configFromEnv(provider, env);
@@ -13,6 +16,24 @@ export async function runRealProviderE2E({ provider, env = process.env, output =
   }
 
   return result;
+}
+
+export function runRealProviderDryRun({ provider, env = process.env, output = console }) {
+  const config = dryRunConfigFromEnv(provider, env);
+  const redactedPlan = redactRequestPlan(buildProviderRequestPlan(config));
+  const outputPath = join("reports", "real-e2e", `${provider}-dry-run.json`);
+
+  writeJson(outputPath, {
+    provider,
+    generatedAt: config.now,
+    requestPlan: redactedPlan
+  });
+
+  output.log(`${provider} dry-run wrote ${outputPath}`);
+  return {
+    outputPath,
+    requestPlan: redactedPlan
+  };
 }
 
 export function configFromEnv(provider, env = process.env) {
@@ -49,6 +70,30 @@ export function configFromEnv(provider, env = process.env) {
         endTime: env.REAL_E2E_END_DATE
       }
     };
+  }
+
+  throw new Error(`Unsupported provider: ${provider}`);
+}
+
+export function dryRunConfigFromEnv(provider, env = process.env) {
+  const envWithPlaceholderSecret = {
+    ...env,
+    OPENAI_ADMIN_KEY: env.OPENAI_ADMIN_KEY ?? "dry-run-openai-secret",
+    ANTHROPIC_ADMIN_KEY: env.ANTHROPIC_ADMIN_KEY ?? "dry-run-anthropic-secret"
+  };
+
+  if (provider === "openai") {
+    return configFromEnv("openai", {
+      ...envWithPlaceholderSecret,
+      REAL_E2E_START_TIME: envWithPlaceholderSecret.REAL_E2E_START_TIME ?? "1780272000"
+    });
+  }
+
+  if (provider === "anthropic") {
+    return configFromEnv("anthropic", {
+      ...envWithPlaceholderSecret,
+      REAL_E2E_START_DATE: envWithPlaceholderSecret.REAL_E2E_START_DATE ?? "2026-06-01T00:00:00.000Z"
+    });
   }
 
   throw new Error(`Unsupported provider: ${provider}`);
@@ -96,4 +141,9 @@ function optionalNumber(value) {
   }
 
   return parsed;
+}
+
+function writeJson(path, value) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
