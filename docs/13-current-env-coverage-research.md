@@ -35,6 +35,12 @@
    - secret은 request 실행 객체에만 존재하고 reports/test artifacts에는 redacted 형태로만 남깁니다.
    - provider별 collector 변경은 mock HTTP test와 provider-to-widget integration test를 함께 요구합니다.
 
+7. Real provider opt-in E2E
+   - `make verify`에는 포함하지 않습니다.
+   - dry-run은 실제 key 없이 redacted request plan artifact만 생성합니다.
+   - 실제 E2E는 env var가 있을 때만 실행하고, compatibility report에는 parsed metrics/status만 저장합니다.
+   - raw provider response body, key, email, org id는 artifact에 저장하지 않습니다.
+
 ## macOS 환경으로 넘길 영역
 
 1. WidgetKit extension build
@@ -61,6 +67,7 @@
 - canonical fixture contract test 추가
 - provider request plan과 mock collector test 추가
 - mock E2E collector summary artifact 추가
+- real provider dry-run과 compatibility report 추가
 
 ## 참고 자료
 

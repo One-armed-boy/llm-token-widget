@@ -49,6 +49,9 @@ Planned command contract:
 - `make test`: local Node tests now; Swift package and app tests after macOS project scaffolding
 - `make test-providers`: provider parser and provider error mapping tests
 - `make e2e-mock`: build/run mock account and collector flows, then generate reports
+- `make e2e-openai-dry-run`, `make e2e-anthropic-dry-run`: generate redacted real-provider request plans without keys
+- `OPENAI_ADMIN_KEY=... REAL_E2E_START_TIME=... make e2e-openai`: opt-in OpenAI real API compatibility check
+- `ANTHROPIC_ADMIN_KEY=... REAL_E2E_START_DATE=... make e2e-anthropic`: opt-in Anthropic real API compatibility check
 - `make snapshot-audit`: verify App Group snapshot contains only allowed fields
 - `make ui-screenshots`: capture deterministic app/widget-host screenshots
 
@@ -59,6 +62,7 @@ Planned command contract:
 - Provider adapters must have fixture-based parser tests before real API E2E.
 - Collector changes must have mock HTTP tests and must not write secrets or raw provider responses to reports.
 - Real provider tests are opt-in only and must require explicit environment variables.
+- Real provider compatibility reports must contain parsed metrics/status only, never raw response bodies.
 - Any debug export or artifact must be redactable and safe to inspect.
 
 ## Security Boundaries

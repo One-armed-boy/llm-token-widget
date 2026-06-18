@@ -209,12 +209,47 @@ reports/ui-screenshots/widget-preview-medium.png
 - Keychain test namespace 사용
 - 로그 redaction 확인
 - API response body 저장 금지
+- compatibility report에는 parsed metrics, account state, error code, redacted request plan만 저장
+- dry-run은 실제 key 없이 request plan만 검증
 
 예상 명령:
 
 ```bash
+make e2e-openai-dry-run
+make e2e-anthropic-dry-run
 OPENAI_ADMIN_KEY=... make e2e-openai
 ANTHROPIC_ADMIN_KEY=... make e2e-anthropic
+```
+
+필수 환경 변수:
+
+```text
+OPENAI_ADMIN_KEY
+REAL_E2E_START_TIME
+
+ANTHROPIC_ADMIN_KEY
+REAL_E2E_START_DATE
+```
+
+선택 환경 변수:
+
+```text
+REAL_E2E_END_TIME
+REAL_E2E_END_DATE
+REAL_E2E_BUDGET_USD
+REAL_E2E_ACCOUNT_ID
+REAL_E2E_DISPLAY_NAME
+REAL_E2E_NOW
+REAL_E2E_TIMEOUT_MS
+```
+
+산출물:
+
+```text
+reports/real-e2e/openai-dry-run.json
+reports/real-e2e/anthropic-dry-run.json
+reports/real-e2e/openai-summary.json
+reports/real-e2e/anthropic-summary.json
 ```
 
 ## 표준 명령 계약

@@ -40,6 +40,22 @@ provider fixture parser만 빠르게 확인할 때:
 make test-providers
 ```
 
+실제 provider API 호출 전 request plan만 확인할 때:
+
+```bash
+make e2e-openai-dry-run
+make e2e-anthropic-dry-run
+```
+
+실제 provider API opt-in E2E:
+
+```bash
+OPENAI_ADMIN_KEY=... REAL_E2E_START_TIME=1780272000 make e2e-openai
+ANTHROPIC_ADMIN_KEY=... REAL_E2E_START_DATE=2026-06-01T00:00:00.000Z make e2e-anthropic
+```
+
+실제 E2E는 `make verify`에 포함하지 않습니다. 생성되는 `reports/real-e2e/*.json`에는 raw provider response나 secret을 저장하지 않습니다.
+
 macOS/Xcode 환경이 연결되면 같은 검증 계약에 Swift unit test, WidgetKit build, XCUITest, screenshot smoke를 붙입니다.
 
 ## 핵심 방향
