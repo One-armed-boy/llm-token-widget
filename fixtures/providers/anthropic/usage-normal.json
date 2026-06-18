@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "date": "2026-06-01",
+      "model": "claude-fixture",
+      "input_tokens": 500000,
+      "output_tokens": 100000,
+      "cache_read_input_tokens": 25000,
+      "cache_creation_input_tokens": 5000
+    },
+    {
+      "date": "2026-06-02",
+      "model": "claude-fixture-haiku",
+      "input_tokens": 100000,
+      "output_tokens": 60000,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    }
+  ],
+  "has_more": false,
+  "next_page": null
+}

@@ -1,0 +1,11 @@
+{
+  "results": [
+    {
+      "startTime": "2026-06-01T00:00:00.000Z",
+      "endTime": "2026-06-02T00:00:00.000Z",
+      "amountUsd": 1.5
+    }
+  ],
+  "has_more": false,
+  "next_page": null
+}
