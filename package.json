@@ -6,7 +6,8 @@
   "scripts": {
     "verify": "node scripts/docs-check.mjs && npm test",
     "test": "node --test \"tests/**/*.test.mjs\"",
-    "docs-check": "node scripts/docs-check.mjs"
+    "docs-check": "node scripts/docs-check.mjs",
+    "e2e:mock": "node scripts/e2e-mock.mjs"
   },
   "engines": {
     "node": ">=22"

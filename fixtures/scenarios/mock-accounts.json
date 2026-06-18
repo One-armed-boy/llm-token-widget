@@ -1,0 +1,95 @@
+{
+  "now": "2026-06-18T12:00:00.000Z",
+  "accounts": [
+    {
+      "id": "openai-prod",
+      "provider": "openai",
+      "displayName": "OpenAI Prod",
+      "capability": "supported",
+      "credentialStatus": "valid",
+      "snapshot": {
+        "lastUpdatedAt": "2026-06-18T11:45:00.000Z",
+        "periodStart": "2026-06-01T00:00:00.000Z",
+        "periodEnd": "2026-06-30T23:59:59.000Z",
+        "metrics": {
+          "costUsd": 42.5,
+          "budgetUsd": 200,
+          "inputTokens": 1250000,
+          "outputTokens": 410000,
+          "totalTokens": 1660000
+        }
+      }
+    },
+    {
+      "id": "openai-risk",
+      "provider": "openai",
+      "displayName": "OpenAI Risk",
+      "capability": "supported",
+      "credentialStatus": "valid",
+      "snapshot": {
+        "lastUpdatedAt": "2026-06-18T11:30:00.000Z",
+        "periodStart": "2026-06-01T00:00:00.000Z",
+        "periodEnd": "2026-06-30T23:59:59.000Z",
+        "metrics": {
+          "costUsd": 184,
+          "budgetUsd": 200,
+          "inputTokens": 8000000,
+          "outputTokens": 2500000,
+          "totalTokens": 10500000
+        }
+      }
+    },
+    {
+      "id": "anthropic-stale",
+      "provider": "anthropic",
+      "displayName": "Claude Team",
+      "capability": "supported",
+      "credentialStatus": "valid",
+      "snapshot": {
+        "lastUpdatedAt": "2026-06-16T08:00:00.000Z",
+        "periodStart": "2026-06-01T00:00:00.000Z",
+        "periodEnd": "2026-06-30T23:59:59.000Z",
+        "metrics": {
+          "costUsd": 22,
+          "budgetUsd": 120,
+          "inputTokens": 640000,
+          "outputTokens": 180000,
+          "totalTokens": 820000
+        }
+      }
+    },
+    {
+      "id": "anthropic-auth",
+      "provider": "anthropic",
+      "displayName": "Claude Auth Failed",
+      "capability": "supported",
+      "credentialStatus": "authFailed"
+    },
+    {
+      "id": "claude-personal",
+      "provider": "anthropic",
+      "displayName": "Claude Personal",
+      "capability": "unsupported",
+      "credentialStatus": "missing"
+    },
+    {
+      "id": "manual-side",
+      "provider": "manual",
+      "displayName": "Manual Budget",
+      "capability": "supported",
+      "credentialStatus": "valid",
+      "snapshot": {
+        "lastUpdatedAt": "2026-06-18T11:50:00.000Z",
+        "periodStart": "2026-06-01T00:00:00.000Z",
+        "periodEnd": "2026-06-30T23:59:59.000Z",
+        "metrics": {
+          "costUsd": 12,
+          "budgetUsd": 50,
+          "inputTokens": null,
+          "outputTokens": null,
+          "totalTokens": null
+        }
+      }
+    }
+  ]
+}
