@@ -1,0 +1,47 @@
+{
+  "object": "page",
+  "has_more": false,
+  "next_page": null,
+  "data": [
+    {
+      "object": "bucket",
+      "start_time": 1780272000,
+      "end_time": 1780358400,
+      "results": [
+        {
+          "object": "organization.usage.completions.result",
+          "input_tokens": 1000000,
+          "output_tokens": 250000,
+          "input_cached_tokens": 125000,
+          "input_audio_tokens": 0,
+          "output_audio_tokens": 0,
+          "num_model_requests": 120,
+          "model": "gpt-fixture"
+        }
+      ]
+    },
+    {
+      "object": "bucket",
+      "start_time": 1780358400,
+      "end_time": 1780444800,
+      "results": [
+        {
+          "object": "organization.usage.completions.result",
+          "input_tokens": 250000,
+          "output_tokens": 160000,
+          "input_cached_tokens": 0,
+          "input_audio_tokens": 10000,
+          "output_audio_tokens": 5000,
+          "num_model_requests": 42,
+          "model": "gpt-fixture-mini"
+        },
+        {
+          "object": "organization.usage.embeddings.result",
+          "input_tokens": 50000,
+          "num_model_requests": 20,
+          "model": "embedding-fixture"
+        }
+      ]
+    }
+  ]
+}
