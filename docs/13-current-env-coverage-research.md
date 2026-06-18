@@ -27,6 +27,7 @@
 5. Provider adapter tests
    - 실제 OpenAI/Anthropic API 호출 전, sanitized fixture 기반 parser와 error mapping을 구현합니다.
    - 401, 403, 404, 429, 5xx, pagination, empty usage, partial data를 fixture로 분리합니다.
+   - `make test-providers`로 provider fixture parser만 빠르게 실행합니다.
 
 ## macOS 환경으로 넘길 영역
 

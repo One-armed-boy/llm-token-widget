@@ -34,6 +34,12 @@ make verify
 make test-coverage
 ```
 
+provider fixture parser만 빠르게 확인할 때:
+
+```bash
+make test-providers
+```
+
 macOS/Xcode 환경이 연결되면 같은 검증 계약에 Swift unit test, WidgetKit build, XCUITest, screenshot smoke를 붙입니다.
 
 ## 핵심 방향

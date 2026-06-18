@@ -70,6 +70,8 @@ make test-core
 make test-providers
 ```
 
+현재 구현에서는 OpenAI/Anthropic sanitized fixture parser와 공통 provider error mapping을 이 명령으로 실행합니다.
+
 ### 3. Snapshot Audit
 
 대상:
@@ -287,4 +289,3 @@ LLM 주도 개발을 허용하기 위한 최소 조건:
 - 새 UI flow를 추가하면 accessibility identifier와 screenshot fixture를 함께 추가한다.
 - 새 snapshot field를 추가하면 snapshot audit allowlist를 함께 수정한다.
 - 새 secret handling을 추가하면 redaction test를 함께 추가한다.
-

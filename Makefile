@@ -22,7 +22,7 @@ snapshot-audit:
 	@npm run snapshot:audit
 
 test-providers:
-	@npm test
+	@npm run test:providers
 
 ui-screenshots:
 	@echo "$@ is not implemented yet. See docs/12-test-harness-strategy.md."
