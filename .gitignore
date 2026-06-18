@@ -1,0 +1,23 @@
+# Xcode / Swift
+.build/
+DerivedData/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# macOS
+.DS_Store
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+secrets/
+*.p8
+*.mobileprovision
+
+# Generated reports
+reports/
+coverage/
+
