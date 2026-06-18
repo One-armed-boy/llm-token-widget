@@ -6,5 +6,11 @@ verify:
 docs-check:
 	@npm run docs-check
 
-test test-core test-providers snapshot-audit e2e-mock ui-screenshots:
+test:
+	@npm test
+
+test-core:
+	@npm test
+
+test-providers snapshot-audit e2e-mock ui-screenshots:
 	@echo "$@ is not implemented yet. See docs/12-test-harness-strategy.md."
