@@ -1,4 +1,4 @@
-.PHONY: verify docs-check test test-core test-coverage test-providers snapshot-audit e2e-mock ui-screenshots
+.PHONY: verify docs-check test test-core test-coverage test-providers snapshot-audit e2e-mock e2e-openai e2e-anthropic ui-screenshots
 
 verify:
 	@npm run verify
@@ -17,6 +17,12 @@ test-coverage:
 
 e2e-mock:
 	@npm run e2e:mock
+
+e2e-openai:
+	@npm run e2e:openai
+
+e2e-anthropic:
+	@npm run e2e:anthropic
 
 snapshot-audit:
 	@npm run snapshot:audit
