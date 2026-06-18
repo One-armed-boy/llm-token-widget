@@ -15,5 +15,8 @@ test-core:
 e2e-mock:
 	@npm run e2e:mock
 
-test-providers snapshot-audit ui-screenshots:
+snapshot-audit:
+	@npm run snapshot:audit
+
+test-providers ui-screenshots:
 	@echo "$@ is not implemented yet. See docs/12-test-harness-strategy.md."

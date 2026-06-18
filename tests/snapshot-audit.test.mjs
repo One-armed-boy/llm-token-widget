@@ -1,0 +1,78 @@
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
+import { auditSnapshot } from "../scripts/snapshot-audit.mjs";
+
+const validSnapshot = {
+  schemaVersion: 1,
+  generatedAt: "2026-06-18T12:00:00.000Z",
+  recommendation: {
+    bestAccountId: "openai-prod",
+    riskyAccountIds: ["openai-risk"],
+    staleAccountIds: [],
+    authFailedAccountIds: []
+  },
+  accounts: [
+    {
+      id: "openai-prod",
+      provider: "openai",
+      displayName: "OpenAI Prod",
+      health: "ok",
+      usagePercent: 20,
+      lastUpdatedAt: "2026-06-18T11:45:00.000Z",
+      periodStart: "2026-06-01T00:00:00.000Z",
+      periodEnd: "2026-06-30T23:59:59.000Z",
+      metrics: {
+        costUsd: 20,
+        budgetUsd: 100,
+        inputTokens: 100,
+        outputTokens: 20,
+        totalTokens: 120
+      }
+    }
+  ],
+  counts: {
+    total: 1,
+    ok: 1,
+    risky: 0,
+    stale: 0,
+    authFailed: 0,
+    unsupported: 0,
+    unknown: 0
+  }
+};
+
+describe("snapshot audit", () => {
+  it("passes a valid widget snapshot", () => {
+    assert.equal(auditSnapshot(validSnapshot).ok, true);
+  });
+
+  it("fails unknown fields", () => {
+    const audit = auditSnapshot({
+      ...validSnapshot,
+      accounts: [{ ...validSnapshot.accounts[0], rawResponse: { any: "thing" } }]
+    });
+
+    assert.equal(audit.ok, false);
+    assert.match(audit.failures.map((failure) => failure.path).join("\n"), /rawResponse/);
+  });
+
+  it("fails secret-looking values", () => {
+    const audit = auditSnapshot({
+      ...validSnapshot,
+      accounts: [{ ...validSnapshot.accounts[0], displayName: ["sk", "thisShouldNeverBeInSnapshots123456"].join("-") }]
+    });
+
+    assert.equal(audit.ok, false);
+    assert.match(audit.failures.map((failure) => failure.reason).join("\n"), /openai_api_key/);
+  });
+
+  it("fails email-looking values", () => {
+    const audit = auditSnapshot({
+      ...validSnapshot,
+      accounts: [{ ...validSnapshot.accounts[0], displayName: "owner@example.com" }]
+    });
+
+    assert.equal(audit.ok, false);
+    assert.match(audit.failures.map((failure) => failure.reason).join("\n"), /email/);
+  });
+});
