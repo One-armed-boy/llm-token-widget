@@ -1,6 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateWidgetSnapshotSchema } from "../src/core/widget-snapshot-schema-validator.mjs";
 
 const allowedRootKeys = new Set(["schemaVersion", "generatedAt", "recommendation", "accounts", "counts"]);
 const allowedRecommendationKeys = new Set(["bestAccountId", "riskyAccountIds", "staleAccountIds", "authFailedAccountIds"]);
@@ -44,7 +45,11 @@ const forbiddenValuePatterns = [
 ];
 
 export function auditSnapshot(snapshot) {
-  const failures = [];
+  const schemaAudit = validateWidgetSnapshotSchema(snapshot);
+  const failures = schemaAudit.failures.map((failure) => ({
+    path: failure.path,
+    reason: `schema: ${failure.reason}`
+  }));
 
   checkAllowedKeys(snapshot, allowedRootKeys, "$", failures);
   checkAllowedKeys(snapshot.recommendation, allowedRecommendationKeys, "$.recommendation", failures);

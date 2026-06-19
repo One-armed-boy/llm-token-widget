@@ -70,6 +70,32 @@ describe("snapshot audit", () => {
     assert.match(missingAccounts.failures.map((failure) => failure.path).join("\n"), /\$\.accounts/);
   });
 
+  it("fails schema type, enum, and required field violations", () => {
+    const missingRequired = auditSnapshot({
+      ...validSnapshot,
+      recommendation: {
+        bestAccountId: null,
+        riskyAccountIds: [],
+        staleAccountIds: []
+      }
+    });
+    const invalidEnum = auditSnapshot({
+      ...validSnapshot,
+      accounts: [{ ...validSnapshot.accounts[0], health: "great" }]
+    });
+    const negativeMetric = auditSnapshot({
+      ...validSnapshot,
+      accounts: [{ ...validSnapshot.accounts[0], metrics: { ...validSnapshot.accounts[0].metrics, costUsd: -1 } }]
+    });
+
+    assert.equal(missingRequired.ok, false);
+    assert.match(missingRequired.failures.map((failure) => failure.reason).join("\n"), /schema: is required/);
+    assert.equal(invalidEnum.ok, false);
+    assert.match(invalidEnum.failures.map((failure) => failure.reason).join("\n"), /schema: must be one of/);
+    assert.equal(negativeMetric.ok, false);
+    assert.match(negativeMetric.failures.map((failure) => failure.reason).join("\n"), /schema: must be >= 0/);
+  });
+
   it("fails secret-looking values", () => {
     const audit = auditSnapshot({
       ...validSnapshot,
