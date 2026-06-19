@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://llm-token-widget.local/schemas/widget-snapshot.schema.json",
+  "title": "LLM Token Widget Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "recommendation", "accounts", "counts"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bestAccountId", "riskyAccountIds", "staleAccountIds", "authFailedAccountIds"],
+      "properties": {
+        "bestAccountId": {
+          "type": ["string", "null"]
+        },
+        "riskyAccountIds": {
+          "$ref": "#/$defs/accountIdList"
+        },
+        "staleAccountIds": {
+          "$ref": "#/$defs/accountIdList"
+        },
+        "authFailedAccountIds": {
+          "$ref": "#/$defs/accountIdList"
+        }
+      }
+    },
+    "accounts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/widgetAccount"
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "ok", "risky", "stale", "authFailed", "unsupported", "unknown"],
+      "properties": {
+        "total": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "ok": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "risky": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "stale": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "authFailed": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "unsupported": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "unknown": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "accountIdList": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dateTimeOrNull": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "metricNumberOrNull": {
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "nonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "provider": {
+      "enum": ["openai", "anthropic", "manual"]
+    },
+    "accountHealth": {
+      "enum": ["ok", "risky", "stale", "authFailed", "unsupported", "unknown"]
+    },
+    "widgetAccount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "provider",
+        "displayName",
+        "health",
+        "usagePercent",
+        "lastUpdatedAt",
+        "periodStart",
+        "periodEnd",
+        "metrics"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "provider": {
+          "$ref": "#/$defs/provider"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "health": {
+          "$ref": "#/$defs/accountHealth"
+        },
+        "usagePercent": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "lastUpdatedAt": {
+          "$ref": "#/$defs/dateTimeOrNull"
+        },
+        "periodStart": {
+          "$ref": "#/$defs/dateTimeOrNull"
+        },
+        "periodEnd": {
+          "$ref": "#/$defs/dateTimeOrNull"
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["costUsd", "budgetUsd", "inputTokens", "outputTokens", "totalTokens"],
+          "properties": {
+            "costUsd": {
+              "$ref": "#/$defs/metricNumberOrNull"
+            },
+            "budgetUsd": {
+              "$ref": "#/$defs/metricNumberOrNull"
+            },
+            "inputTokens": {
+              "$ref": "#/$defs/metricNumberOrNull"
+            },
+            "outputTokens": {
+              "$ref": "#/$defs/metricNumberOrNull"
+            },
+            "totalTokens": {
+              "$ref": "#/$defs/metricNumberOrNull"
+            }
+          }
+        }
+      }
+    }
+  }
+}
