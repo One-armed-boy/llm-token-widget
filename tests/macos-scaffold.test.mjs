@@ -31,6 +31,16 @@ describe("macOS scaffold", () => {
     assert.equal(widgetEntitlements.includes("com.apple.security.network.client"), false);
     assert.equal(widgetEntitlements.includes("keychain-access-groups"), false);
   });
+
+  it("keeps the Swift golden fixture in sync with the canonical fixture", () => {
+    const rootFixture = readFileSync("fixtures/snapshots/widget-snapshot.golden.json", "utf8");
+    const swiftFixture = readFileSync(
+      "macos/Packages/UsageCore/Tests/UsageCoreTests/Resources/widget-snapshot.golden.json",
+      "utf8"
+    );
+
+    assert.deepEqual(JSON.parse(swiftFixture), JSON.parse(rootFixture));
+  });
 });
 
 function readFiles(paths) {

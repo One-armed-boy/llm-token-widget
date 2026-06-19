@@ -10,6 +10,10 @@ let package = Package(
     ],
     targets: [
         .target(name: "UsageCore"),
-        .testTarget(name: "UsageCoreTests", dependencies: ["UsageCore"])
+        .testTarget(
+            name: "UsageCoreTests",
+            dependencies: ["UsageCore"],
+            resources: [.process("Resources")]
+        )
     ]
 )
