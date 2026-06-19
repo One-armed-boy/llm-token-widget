@@ -45,7 +45,7 @@ macos-build:
 macos-test-packages:
 	swift test --package-path macos/Packages/UsageCore
 	swift test --package-path macos/Packages/SnapshotStore
-	swift build --package-path macos/Packages/ProviderAdapters
+	swift test --package-path macos/Packages/ProviderAdapters
 
 test-providers:
 	@npm run test:providers

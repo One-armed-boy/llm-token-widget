@@ -81,7 +81,7 @@ make macos-test-packages
 make macos-build
 ```
 
-첫 native vertical slice는 live provider 호출 없이 golden snapshot을 디코드해 메뉴바 앱과 WidgetKit extension에서 렌더링하는 범위입니다. 위젯 target은 `ProviderAdapters`를 의존하지 않고 App Group의 `widget-snapshot.json`만 읽습니다.
+첫 native vertical slice는 live provider 호출 없이 golden snapshot을 디코드해 메뉴바 앱과 WidgetKit extension에서 렌더링하는 범위입니다. 위젯 target은 `ProviderAdapters`를 의존하지 않고 App Group의 `widget-snapshot.json`만 읽습니다. Swift `ProviderAdapters`는 현재 request plan 생성과 redaction까지만 포함하고, 실제 URLSession 실행은 이후 단계에서 붙입니다.
 
 로컬 Xcode 설치 전에도 GitHub Actions의 `macOS native scaffold` job이 `xcodegen generate`와 signing 없는 `xcodebuild`를 실행합니다. 로컬 맥에서는 signing/team 설정을 추가로 맞춰야 할 수 있습니다.
 

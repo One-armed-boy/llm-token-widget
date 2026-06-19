@@ -121,7 +121,7 @@ The first Mac commit should do only this:
 2. add Swift DTOs from [docs/14-swift-widget-contract.md](14-swift-widget-contract.md)
 3. add golden snapshot decode unit test
 4. render Widget preview from bundled golden snapshot
-5. keep provider/network/Keychain implementation stubbed
+5. keep provider network execution and Keychain implementation stubbed
 
 Do not start with live provider API calls in the native app.
 

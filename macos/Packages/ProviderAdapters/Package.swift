@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "ProviderAdapters", targets: ["ProviderAdapters"])
     ],
     targets: [
-        .target(name: "ProviderAdapters")
+        .target(name: "ProviderAdapters"),
+        .testTarget(name: "ProviderAdaptersTests", dependencies: ["ProviderAdapters"])
     ]
 )
