@@ -9,6 +9,7 @@ describe("macOS scaffold", () => {
 
     assert.match(project, /LLMTokenWidgetApp:/);
     assert.match(project, /LLMTokenWidgetExtension:/);
+    assert.match(project, /INFOPLIST_FILE: App\/Info\.plist/);
     assert.match(project, /UsageCore:/);
     assert.match(project, /SnapshotStore:/);
     assert.match(project, /ProviderAdapters:/);
