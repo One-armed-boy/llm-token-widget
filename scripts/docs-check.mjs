@@ -9,7 +9,9 @@ const requiredFiles = [
   "docs/07-security-risk-review.md",
   "docs/11-lightweight-plan-review.md",
   "docs/12-test-harness-strategy.md",
-  "docs/13-current-env-coverage-research.md"
+  "docs/13-current-env-coverage-research.md",
+  "docs/14-swift-widget-contract.md",
+  "schemas/widget-snapshot.schema.json"
 ];
 
 for (const file of requiredFiles) {

@@ -19,6 +19,7 @@ Claude, Claude Code, Codex/OpenAI 사용량을 여러 계정 기준으로 한눈
 - [경량 플랜 재조정과 적대적 검증](docs/11-lightweight-plan-review.md)
 - [테스트 하네스 전략](docs/12-test-harness-strategy.md)
 - [현재 환경 커버리지 리서치](docs/13-current-env-coverage-research.md)
+- [Swift Widget 계약](docs/14-swift-widget-contract.md)
 
 ## 개발 하네스
 
