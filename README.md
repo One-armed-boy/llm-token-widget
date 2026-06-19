@@ -83,6 +83,8 @@ xcodebuild -scheme LLMTokenWidgetApp -destination 'platform=macOS' build
 
 첫 native vertical slice는 live provider 호출 없이 golden snapshot을 디코드해 메뉴바 앱과 WidgetKit extension에서 렌더링하는 범위입니다. 위젯 target은 `ProviderAdapters`를 의존하지 않고 App Group의 `widget-snapshot.json`만 읽습니다.
 
+로컬 Xcode 설치 전에도 GitHub Actions의 `macOS native scaffold` job이 `xcodegen generate`와 signing 없는 `xcodebuild`를 실행합니다. 로컬 맥에서는 signing/team 설정을 추가로 맞춰야 할 수 있습니다.
+
 ## 핵심 방향
 
 WidgetKit 위젯은 지속 실행 프로세스가 아니므로, 위젯이 직접 실시간 수집을 담당하지 않습니다.

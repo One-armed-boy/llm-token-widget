@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  node-verify:
+    name: Node verification
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Verify
+        run: make verify
+
+      - name: Coverage thresholds
+        run: make test-coverage
+
+      - name: Build HTML preview
+        run: make ui-preview
+
+  macos-native-build:
+    name: macOS native scaffold
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: |
+          xcode-select -p
+          xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        working-directory: macos
+        run: xcodegen generate
+
+      - name: List schemes
+        working-directory: macos
+        run: xcodebuild -list -project LLMTokenWidget.xcodeproj
+
+      - name: Build app and widget without signing
+        working-directory: macos
+        run: |
+          xcodebuild \
+            -project LLMTokenWidget.xcodeproj \
+            -scheme LLMTokenWidgetApp \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            build
