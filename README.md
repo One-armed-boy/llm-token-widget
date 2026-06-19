@@ -40,6 +40,13 @@ make verify
 make test-coverage
 ```
 
+현재 단계의 UI preview를 HTML로 확인할 때:
+
+```bash
+make ui-preview
+open reports/ui-preview/index.html
+```
+
 provider fixture parser만 빠르게 확인할 때:
 
 ```bash
@@ -63,6 +70,18 @@ ANTHROPIC_ADMIN_KEY=... REAL_E2E_START_DATE=2026-06-01T00:00:00.000Z make e2e-an
 실제 E2E는 `make verify`에 포함하지 않습니다. 생성되는 `reports/real-e2e/*.json`에는 raw provider response나 secret을 저장하지 않습니다.
 
 macOS/Xcode 환경이 연결되면 같은 검증 계약에 Swift unit test, WidgetKit build, XCUITest, screenshot smoke를 붙입니다.
+
+## macOS 네이티브 스캐폴드
+
+현재 repo에는 XcodeGen 기반 macOS skeleton이 포함되어 있습니다.
+
+```bash
+cd macos
+xcodegen generate
+xcodebuild -scheme LLMTokenWidgetApp -destination 'platform=macOS' build
+```
+
+첫 native vertical slice는 live provider 호출 없이 golden snapshot을 디코드해 메뉴바 앱과 WidgetKit extension에서 렌더링하는 범위입니다. 위젯 target은 `ProviderAdapters`를 의존하지 않고 App Group의 `widget-snapshot.json`만 읽습니다.
 
 ## 핵심 방향
 

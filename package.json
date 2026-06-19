@@ -14,7 +14,8 @@
     "e2e:anthropic": "node scripts/e2e-anthropic.mjs",
     "e2e:openai:dry-run": "node scripts/e2e-openai-dry-run.mjs",
     "e2e:anthropic:dry-run": "node scripts/e2e-anthropic-dry-run.mjs",
-    "snapshot:audit": "node scripts/snapshot-audit.mjs"
+    "snapshot:audit": "node scripts/snapshot-audit.mjs",
+    "ui:preview": "node scripts/ui-preview.mjs"
   },
   "engines": {
     "node": ">=22"

@@ -17,7 +17,12 @@ const requiredFiles = [
   "docs/18-keychain-credential-store-contract.md",
   "docs/19-macos-manual-smoke-checklist.md",
   "schemas/widget-snapshot.schema.json",
-  "fixtures/snapshots/widget-snapshot.golden.json"
+  "fixtures/snapshots/widget-snapshot.golden.json",
+  "macos/project.yml",
+  "macos/Packages/UsageCore/Sources/UsageCore/WidgetSnapshotDTO.swift",
+  "macos/Packages/SnapshotStore/Sources/SnapshotStore/AppGroupSnapshotStore.swift",
+  "macos/SharedUI/WidgetSnapshotView.swift",
+  "src/ui-preview/render-preview-html.mjs"
 ];
 
 for (const file of requiredFiles) {
@@ -48,4 +53,14 @@ if (!moduleBoundaries.includes("WidgetExtension") || !moduleBoundaries.includes(
 const smokeChecklist = readFileSync("docs/19-macos-manual-smoke-checklist.md", "utf8");
 if (!smokeChecklist.includes("xcodebuild") || !smokeChecklist.includes("Widget Extension")) {
   throw new Error("macOS manual smoke checklist must document build and widget checks.");
+}
+
+const projectSpec = readFileSync("macos/project.yml", "utf8");
+if (!projectSpec.includes("ProviderAdapters") || !projectSpec.includes("LLMTokenWidgetExtension")) {
+  throw new Error("macOS scaffold must include provider adapters and widget targets.");
+}
+
+const widgetView = readFileSync("macos/SharedUI/WidgetSnapshotView.swift", "utf8");
+if (widgetView.includes("ProviderAdapters") || widgetView.includes("URLSession")) {
+  throw new Error("Shared widget UI must not import provider adapters or networking.");
 }

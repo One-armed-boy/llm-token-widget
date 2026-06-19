@@ -1,0 +1,60 @@
+name: LLMTokenWidget
+options:
+  bundleIdPrefix: com.local
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: 1
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+packages:
+  UsageCore:
+    path: Packages/UsageCore
+  SnapshotStore:
+    path: Packages/SnapshotStore
+  ProviderAdapters:
+    path: Packages/ProviderAdapters
+targets:
+  LLMTokenWidgetApp:
+    type: application
+    platform: macOS
+    sources:
+      - App
+      - SharedUI
+    dependencies:
+      - package: UsageCore
+      - package: SnapshotStore
+      - package: ProviderAdapters
+    entitlements:
+      path: App/LLMTokenWidgetApp.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.local.llm-token-widget
+        INFOPLIST_KEY_LSUIElement: true
+  LLMTokenWidgetExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - Widget
+      - SharedUI
+    dependencies:
+      - package: UsageCore
+      - package: SnapshotStore
+    entitlements:
+      path: Widget/LLMTokenWidgetExtension.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.local.llm-token-widget.widget
+        INFOPLIST_FILE: Widget/Info.plist
+        SKIP_INSTALL: true
+schemes:
+  LLMTokenWidgetApp:
+    build:
+      targets:
+        LLMTokenWidgetApp: all
+        LLMTokenWidgetExtension: all
+    test:
+      gatherCoverageData: true
+      targets: []
