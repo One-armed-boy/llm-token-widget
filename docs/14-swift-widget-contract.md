@@ -129,6 +129,43 @@ The DTO must not include:
 
 If a Swift implementation needs a field not listed in the schema, update the schema, audit, golden fixture, and this document in the same change.
 
+## Schema Evolution
+
+Current version:
+
+```text
+schemaVersion = 1
+```
+
+Compatible changes that can keep `schemaVersion = 1`:
+
+- adding a new optional field only when older readers can ignore it
+- adding a new enum case only when the Swift reader has an unknown fallback
+- loosening a nullable metric interpretation without changing field meaning
+
+Breaking changes that require a new `schemaVersion`:
+
+- removing a field
+- renaming a field
+- changing a field type
+- changing enum value spelling
+- changing the semantic meaning of a field
+- making an optional field required
+
+Every schema change must update these files in the same commit:
+
+- `schemas/widget-snapshot.schema.json`
+- `fixtures/snapshots/widget-snapshot.golden.json`
+- `docs/14-swift-widget-contract.md`
+- snapshot audit tests
+- Swift DTOs once the macOS target exists
+
+Widget reader behavior:
+
+- support the current schema version
+- show an unsupported snapshot state for future unknown major versions
+- never attempt provider refresh from the widget extension
+
 ## Rendering Guidance
 
 - `generatedAt` is displayed as last updated.

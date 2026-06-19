@@ -11,7 +11,8 @@ const requiredFiles = [
   "docs/12-test-harness-strategy.md",
   "docs/13-current-env-coverage-research.md",
   "docs/14-swift-widget-contract.md",
-  "schemas/widget-snapshot.schema.json"
+  "schemas/widget-snapshot.schema.json",
+  "fixtures/snapshots/widget-snapshot.golden.json"
 ];
 
 for (const file of requiredFiles) {
@@ -27,4 +28,9 @@ const agentGuide = readFileSync("AGENTS.md", "utf8");
 const harnessStrategy = readFileSync("docs/12-test-harness-strategy.md", "utf8");
 if (!agentGuide.includes("make verify") || !harnessStrategy.includes("make verify")) {
   throw new Error("AGENTS.md and test harness strategy must document make verify.");
+}
+
+const swiftContract = readFileSync("docs/14-swift-widget-contract.md", "utf8");
+if (!swiftContract.includes("schemaVersion = 1") || !swiftContract.includes("Schema Evolution")) {
+  throw new Error("Swift widget contract must document schema evolution rules.");
 }

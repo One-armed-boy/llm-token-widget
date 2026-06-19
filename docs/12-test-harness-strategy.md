@@ -352,4 +352,6 @@ LLM 주도 개발을 허용하기 위한 최소 조건:
 - 새 provider collector를 추가하면 mock HTTP collector test와 provider-to-widget integration test를 함께 추가한다.
 - 새 UI flow를 추가하면 accessibility identifier와 screenshot fixture를 함께 추가한다.
 - 새 snapshot field를 추가하면 snapshot audit allowlist를 함께 수정한다.
+- 새 snapshot field를 추가하면 JSON schema, Swift DTO 계약, golden fixture를 함께 수정한다.
+- 기존 snapshot field를 삭제하거나 의미를 바꾸면 `schemaVersion`을 올리고 backward compatibility 전략을 문서화한다.
 - 새 secret handling을 추가하면 redaction test를 함께 추가한다.

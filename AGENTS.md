@@ -90,5 +90,6 @@ Widget snapshot forbidden fields:
 - Use a `CredentialStore` abstraction. Keychain is the default implementation, not a global dependency.
 - Use a provider-neutral `UsageSnapshot` for display and WidgetKit sharing.
 - Keep provider request planning separate from parsing and snapshot writing.
+- Treat `schemas/widget-snapshot.schema.json` and `fixtures/snapshots/widget-snapshot.golden.json` as the WidgetKit boundary contract.
 - Keep recommendation logic deterministic and explainable. If data is stale or insufficient, show `unknown` rather than guessing.
 - Default UI copy should say "latest snapshot" or "last updated", not "real-time".
