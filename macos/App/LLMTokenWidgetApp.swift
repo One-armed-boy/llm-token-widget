@@ -13,7 +13,8 @@ struct LLMTokenWidgetApp: App {
     var body: some Scene {
         MenuBarExtra("LLM Usage", systemImage: "chart.bar.xaxis") {
             MenuBarRootView(snapshotStore: snapshotStore)
-                .frame(width: 360, minHeight: 440)
+                .frame(width: 360)
+                .frame(minHeight: 440)
         }
         .menuBarExtraStyle(.window)
     }
