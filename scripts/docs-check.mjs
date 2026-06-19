@@ -11,6 +11,11 @@ const requiredFiles = [
   "docs/12-test-harness-strategy.md",
   "docs/13-current-env-coverage-research.md",
   "docs/14-swift-widget-contract.md",
+  "docs/15-macos-project-scaffold-spec.md",
+  "docs/16-swift-module-boundaries.md",
+  "docs/17-app-group-snapshot-contract.md",
+  "docs/18-keychain-credential-store-contract.md",
+  "docs/19-macos-manual-smoke-checklist.md",
   "schemas/widget-snapshot.schema.json",
   "fixtures/snapshots/widget-snapshot.golden.json"
 ];
@@ -33,4 +38,14 @@ if (!agentGuide.includes("make verify") || !harnessStrategy.includes("make verif
 const swiftContract = readFileSync("docs/14-swift-widget-contract.md", "utf8");
 if (!swiftContract.includes("schemaVersion = 1") || !swiftContract.includes("Schema Evolution")) {
   throw new Error("Swift widget contract must document schema evolution rules.");
+}
+
+const moduleBoundaries = readFileSync("docs/16-swift-module-boundaries.md", "utf8");
+if (!moduleBoundaries.includes("WidgetExtension") || !moduleBoundaries.includes("Forbidden")) {
+  throw new Error("Swift module boundaries must document WidgetExtension forbidden dependencies.");
+}
+
+const smokeChecklist = readFileSync("docs/19-macos-manual-smoke-checklist.md", "utf8");
+if (!smokeChecklist.includes("xcodebuild") || !smokeChecklist.includes("Widget Extension")) {
+  throw new Error("macOS manual smoke checklist must document build and widget checks.");
 }

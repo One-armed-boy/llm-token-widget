@@ -20,6 +20,11 @@ Claude, Claude Code, Codex/OpenAI 사용량을 여러 계정 기준으로 한눈
 - [테스트 하네스 전략](docs/12-test-harness-strategy.md)
 - [현재 환경 커버리지 리서치](docs/13-current-env-coverage-research.md)
 - [Swift Widget 계약](docs/14-swift-widget-contract.md)
+- [macOS 프로젝트 스캐폴딩](docs/15-macos-project-scaffold-spec.md)
+- [Swift 모듈 경계](docs/16-swift-module-boundaries.md)
+- [App Group Snapshot 계약](docs/17-app-group-snapshot-contract.md)
+- [Keychain CredentialStore 계약](docs/18-keychain-credential-store-contract.md)
+- [macOS 수동 Smoke 체크리스트](docs/19-macos-manual-smoke-checklist.md)
 
 ## 개발 하네스
 
