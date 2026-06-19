@@ -76,14 +76,16 @@ macOS/Xcode 환경이 연결되면 같은 검증 계약에 Swift unit test, Widg
 현재 repo에는 XcodeGen 기반 macOS skeleton이 포함되어 있습니다.
 
 ```bash
-cd macos
-xcodegen generate
-xcodebuild -scheme LLMTokenWidgetApp -destination 'platform=macOS' build
+make macos-generate
+make macos-test-packages
+make macos-build
 ```
 
 첫 native vertical slice는 live provider 호출 없이 golden snapshot을 디코드해 메뉴바 앱과 WidgetKit extension에서 렌더링하는 범위입니다. 위젯 target은 `ProviderAdapters`를 의존하지 않고 App Group의 `widget-snapshot.json`만 읽습니다.
 
 로컬 Xcode 설치 전에도 GitHub Actions의 `macOS native scaffold` job이 `xcodegen generate`와 signing 없는 `xcodebuild`를 실행합니다. 로컬 맥에서는 signing/team 설정을 추가로 맞춰야 할 수 있습니다.
+
+`macos/LLMTokenWidget.xcodeproj/`는 XcodeGen 생성물이므로 git에 커밋하지 않습니다.
 
 ## 핵심 방향
 

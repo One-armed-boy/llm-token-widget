@@ -1,6 +1,7 @@
 # Xcode / Swift
 .build/
 DerivedData/
+macos/*.xcodeproj/
 *.xcuserstate
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
@@ -20,4 +21,3 @@ secrets/
 # Generated reports
 reports/
 coverage/
-

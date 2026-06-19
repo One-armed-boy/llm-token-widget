@@ -1,4 +1,4 @@
-.PHONY: verify docs-check test test-core test-coverage test-providers snapshot-audit e2e-mock e2e-openai e2e-anthropic e2e-openai-dry-run e2e-anthropic-dry-run ui-preview ui-screenshots
+.PHONY: verify docs-check test test-core test-coverage test-providers snapshot-audit e2e-mock e2e-openai e2e-anthropic e2e-openai-dry-run e2e-anthropic-dry-run ui-preview macos-generate macos-build macos-test-packages ui-screenshots
 
 verify:
 	@npm run verify
@@ -35,6 +35,17 @@ snapshot-audit:
 
 ui-preview:
 	@npm run ui:preview
+
+macos-generate:
+	cd macos && xcodegen generate
+
+macos-build:
+	cd macos && xcodebuild -project LLMTokenWidget.xcodeproj -scheme LLMTokenWidgetApp -destination 'platform=macOS' build
+
+macos-test-packages:
+	swift test --package-path macos/Packages/UsageCore
+	swift test --package-path macos/Packages/SnapshotStore
+	swift build --package-path macos/Packages/ProviderAdapters
 
 test-providers:
 	@npm run test:providers
