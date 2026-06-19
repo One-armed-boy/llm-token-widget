@@ -4,6 +4,7 @@ import { buildProviderRequestPlan, redactRequestPlan } from "../src/collectors/p
 
 describe("provider request plan", () => {
   it("builds OpenAI usage and costs requests without leaking secrets in redacted output", () => {
+    const expectedAuthorization = ["Bearer", "openai-test-secret-should-not-leak"].join(" ");
     const plan = buildProviderRequestPlan({
       provider: "openai",
       accountId: "openai-prod",
@@ -21,7 +22,7 @@ describe("provider request plan", () => {
     assert.match(plan.requests[0].url, /start_time=1780272000/);
     assert.match(plan.requests[0].url, /group_by=project_id/);
     assert.match(plan.requests[0].url, /group_by=api_key_id/);
-    assert.equal(plan.requests[0].headers.Authorization, ["Bearer", "openai-test-secret-should-not-leak"].join(" "));
+    assert.equal(plan.requests[0].headers.Authorization, expectedAuthorization);
 
     const redacted = redactRequestPlan(plan);
     assert.equal(JSON.stringify(redacted).includes("openai-test-secret-should-not-leak"), false);

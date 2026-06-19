@@ -7,6 +7,7 @@ import { readFixture } from "./support/fixtures.mjs";
 
 describe("real HTTP client", () => {
   it("uses fetch and redacts captured request headers", async () => {
+    const authorization = ["Bearer", "openai-real-secret"].join(" ");
     const client = createRealHttpClient({
       fetchImpl: async () => response(200, readFixture("fixtures/providers/openai/usage-empty.json"))
     });
@@ -14,7 +15,7 @@ describe("real HTTP client", () => {
       name: "usage",
       method: "GET",
       url: "https://api.openai.com/v1/organization/usage/completions",
-      headers: { Authorization: ["Bearer", "openai-real-secret"].join(" ") }
+      headers: { Authorization: authorization }
     });
 
     assert.equal(result.status, 200);

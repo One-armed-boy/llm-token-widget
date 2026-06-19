@@ -97,9 +97,10 @@ describe("snapshot audit", () => {
   });
 
   it("fails secret-looking values", () => {
+    const fakeOpenAIKey = ["sk", "thisShouldNeverBeInSnapshots123456"].join("-");
     const audit = auditSnapshot({
       ...validSnapshot,
-      accounts: [{ ...validSnapshot.accounts[0], displayName: ["sk", "thisShouldNeverBeInSnapshots123456"].join("-") }]
+      accounts: [{ ...validSnapshot.accounts[0], displayName: fakeOpenAIKey }]
     });
 
     assert.equal(audit.ok, false);
@@ -117,13 +118,15 @@ describe("snapshot audit", () => {
   });
 
   it("fails local paths and bearer tokens anywhere in the tree", () => {
+    const fakeBearerToken = `Bearer ${"abcdefghijklmnopqrstuvwxyz123456"}`;
+    const fakeLocalPath = ["", "home", "example", "private-project"].join("/");
     const audit = auditSnapshot({
       ...validSnapshot,
       recommendation: {
         ...validSnapshot.recommendation,
-        riskyAccountIds: ["/home/opc/private-project"]
+        riskyAccountIds: [fakeLocalPath]
       },
-      accounts: [{ ...validSnapshot.accounts[0], displayName: `Bearer ${"abcdefghijklmnopqrstuvwxyz123456"}` }]
+      accounts: [{ ...validSnapshot.accounts[0], displayName: fakeBearerToken }]
     });
 
     assert.equal(audit.ok, false);
